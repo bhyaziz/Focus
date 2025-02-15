@@ -2,7 +2,7 @@
 🎯 Purpose
 Focus is designed to help students and professionals improve focus, boost productivity, and efficiently manage their time. By combining the Pomodoro Technique with an integrated to-do list, users can easily organize their tasks and track their progress while maintaining a balanced workflow.
 
-🛠 Features
+🛠 Features  
 ✅ Customizable Pomodoro Timer – Set your own timer duration to fit your workflow.  
 ✅ Task Management System – Add, edit, delete, and track tasks linked to Pomodoro sessions.  
 ✅ Simple & Stylish UI – A clean, minimalistic, and intuitive design for a smooth user experience.  
