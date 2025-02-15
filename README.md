@@ -1,4 +1,4 @@
-📌 Project Title: # Focus
+# Focus
 🎯 Purpose
 Focus is designed to help students and professionals improve focus, boost productivity, and efficiently manage their time. By combining the Pomodoro Technique with an integrated to-do list, users can easily organize their tasks and track their progress while maintaining a balanced workflow.
 
