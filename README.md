@@ -6,9 +6,8 @@ Focus is designed to help students and professionals improve focus, boost produc
 ✅ Customizable Pomodoro Timer – Set your own timer duration to fit your workflow.  
 ✅ Task Management System – Add, edit, delete, and track tasks linked to Pomodoro sessions.  
 ✅ Simple & Stylish UI – A clean, minimalistic, and intuitive design for a smooth user experience.  
-✅ Progress Tracking – Visual indicators to show completed Pomodoro sessions and pending tasks.  
-✅ Responsive & Accessible – Works on all devices (desktop, tablet, mobile).  
-✅ (Optional) User Authentication – Save task history across sessions.  
+✅ Progress Tracking – Visual indicators to show completed Pomodoro sessions and pending tasks.    
+✅ User Authentication – Save task history across sessions.  
 
 🎯 Target Audience
 🔹 Students – Stay organized while studying and preparing for exams.  
