@@ -1,0 +1,127 @@
+/* Mise en page globale */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #FFD7C4;
+}
+
+/* Conteneur du formulaire */
+.form-container {
+    background: #acbaea;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px #bde2ed;
+    width: 90%;
+    max-width: 400px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(174, 80, 80, 0.3);
+}
+
+/* Titre du formulaire */
+h2 {
+    text-align: center;
+    color: #f0eff7;
+    font-size: 1.6em;
+    margin-bottom: 20px;
+}
+
+/* Labels des champs */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #f4f1f0;
+    font-weight: bold;
+}
+
+/* Champs de saisie */
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: rgba(233, 234, 242, 0.8);
+    font-size: 1em;
+    color: #ecf0f3;
+    transition: all 0.3s ease;
+}
+
+/* Effet au focus sur les champs */
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    border-color: #1f6cbe;
+    background: rgb(111, 88, 88);
+    outline: none;
+}
+
+/* Bouton de soumission */
+button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(145deg,#FFD7C4, #9DBDFF);
+    color: rgb(238, 242, 247);
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    letter-spacing: 2px;
+}
+
+/* Effet au survol du bouton */
+button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(145deg, #FF9874, #9DBDFF);
+}
+
+/* Effet au clic (active) */
+button:active {
+    transform: scale(0.98);
+    background: linear-gradient(145deg, #FFD7C4, #5c7dd7);
+}
+
+/* Lien "Se connecter" */
+.form-toggle {
+    cursor: pointer;
+    color: #6ea5e0;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* Lien retour à l'accueil */
+p a {
+    text-align: center;
+    color: #eee9e3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Responsivité pour les petits écrans */
+@media (max-width: 600px) {
+    .form-container {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 1.4em;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+        padding: 8px;
+        font-size: 0.95em;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 1em;
+    }
+}

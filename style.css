@@ -1,0 +1,87 @@
+/* Mise en page globale */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('thisone.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #A7C7E7(128, 107, 107);
+}
+
+
+/* Conteneur principal des boutons */
+.button-container {
+    text-align: center;
+    background: #e1e5eb(0, 0, 0, 0.6); /* Fond sombre transparent */
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px); 
+    border: 2px solid #e8eaef(255, 255, 255, 0.3);
+}
+
+/* Style des boutons */
+.auth-button {
+    background: linear-gradient(145deg, #afe7d0, #829aea); /* Dégradé attrayant */
+    color: #dfe3ee;
+    padding: 18px 35px;
+    margin: 10px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px; /* Espacement entre les lettres */
+}
+
+/* Effet au survol du bouton */
+.auth-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(145deg, #FFD7C4, #7695FF); /* Changer le dégradé au survol */
+}
+
+/* Effet au clic (active) */
+.auth-button:active {
+    transform: scale(0.98); /* Réduit la taille au clic */
+    background: linear-gradient(145deg, #7886C7, #FF9874); /* Dégradé plus foncé */
+}
+
+/* animation de pulsation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.auth-button {
+    animation: pulse 2s infinite; /* Ajoute un effet de pulsation continu */
+}
+
+/* Responsivité pour les petits écrans */
+@media (max-width: 600px) {
+    .auth-button {
+        font-size: 1em;
+        padding: 15px 30px;
+    }
+
+    .button-container {
+        padding: 30px;
+    }
+}
