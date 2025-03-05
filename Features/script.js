@@ -40,13 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (loginButton) {
         loginButton.addEventListener('click', function () {
-            window.location.href = 'login.html'; // Rediriger vers la page de connexion
+            window.location.href = 'Features\login\login.html'; // Rediriger vers la page de connexion
         });
     }
 
     if (signupButton) {
         signupButton.addEventListener('click', function () {
-            window.location.href = 'signup.html'; // Rediriger vers la page d'inscription
+            window.location.href = 'Features\signup\signup.html'; // Rediriger vers la page d'inscription
         });
     }
 });
