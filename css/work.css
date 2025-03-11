@@ -1,0 +1,362 @@
+/* Global styles incorporating elements from style.css, login.css, and signup.css */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+  background-color: #f5f5f5;
+  color: #ffd7c4;
+}
+
+body {
+  display: flex;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 250px;
+  background: #acbaea;
+  color: white;
+  padding: 10px;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 0 15px 30px #bde2ed;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(174, 80, 80, 0.3);
+}
+
+.sidebar h3 {
+  text-align: center;
+  color: #f0eff7;
+  font-size: 1.6em;
+  margin-bottom: 20px;
+}
+
+.project-list {
+  list-style: none;
+  padding: 0;
+}
+
+.project-list li {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.project-list li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Main container styles */
+.main-container {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Project container styles */
+.project-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #acbaea;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px #bde2ed;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(174, 80, 80, 0.3);
+}
+
+.project-container h2,
+.project-container h3 {
+  text-align: center;
+  color: #f0eff7;
+  font-size: 1.6em;
+  margin-bottom: 20px;
+}
+
+/* Task styles */
+.tasks {
+  margin-top: 20px;
+}
+
+.task {
+  position: relative;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.task:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.task-name {
+  font-weight: bold;
+  color: #f4f1f0;
+}
+
+.task-options {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  z-index: 10;
+  right: 15px;
+  top: 40px;
+  border-radius: 5px;
+}
+
+.task:hover .task-options {
+  display: block;
+}
+
+.task-options button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 5px 10px;
+  margin: 2px 0;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.task-options button:hover {
+  background: #f0f0f0;
+}
+
+.progress {
+  font-size: 12px;
+  color: #ffd7c4;
+  margin-left: 5px;
+}
+
+/* Timer styles */
+.timer-container {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+.timer-display {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #f4f1f0;
+  text-align: center;
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.message-display {
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #ffd7c4;
+  min-height: 20px;
+}
+
+.question-container,
+.time-buttons-container {
+  display: none;
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Button styles from the CSS files */
+button {
+  background: linear-gradient(145deg, #ffd7c4, #9dbdff);
+  color: white;
+  padding: 8px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(145deg, #ffd7c4, #7695ff);
+}
+
+button:active {
+  transform: scale(0.98);
+  background: linear-gradient(145deg, #7886c7, #ff9874);
+}
+
+/* Animation from style.css */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.add-button {
+  animation: pulse 2s infinite;
+  margin-top: 15px;
+  width: 100%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+  }
+
+  .main-container {
+    padding: 10px;
+  }
+}
+
+/* New styles for inline editing */
+.editable {
+  border: 1px solid transparent;
+  padding: 2px;
+}
+.editable:focus {
+  border-color: #ffd7c4;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Styles for circular timer */
+.timer-circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+.timer-circle-bg {
+  fill: none;
+  stroke: #ffd7c4;
+  stroke-width: 5;
+}
+.timer-circle-progress {
+  fill: none;
+  stroke: #9dbdff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1s linear;
+}
+.timer-circle-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Style for undo message */
+.undo-message {
+  background: rgba(255, 215, 196, 0.2);
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Hide timers by default */
+.timer-container {
+  display: none;
+}
+
+/* Show timer for selected task */
+.task.selected .timer-container {
+  display: block;
+}
+
+/* Always hide task options by default */
+.task-options {
+  display: none;
+}
+
+/* Ajustement pour les boutons de projet */
+.project-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.project-buttons button {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  transition: transform 0.2s;
+}
+
+.project-buttons button:hover {
+  transform: scale(1.2);
+}
+
+/* Ajout de styles pour centraliser les questions */
+.question-container,
+.time-buttons-container,
+#work-break-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.question-container button,
+.time-buttons-container button,
+#work-break-container button {
+  margin: 5px;
+}
+
