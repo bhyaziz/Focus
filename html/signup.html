@@ -1,62 +1,53 @@
+
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="..\css\signup.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="..\css\signup.css">
     <title>Inscription</title>
-    <script
-      type="text/javascript"
-      src="https://npmcdn.com/parse/dist/parse.min.js"
-    ></script>
-  </head>
-  <body>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+
+</head>
+<body>
     <nav>
-      <div class="nav-container">
-        <div class="logo">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#2563eb"
-            stroke-width="2"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 6v6l4 2" />
-          </svg>
-          Focus
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                Focus
+            </div>
+            <div class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="work.html">Work</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-secondary">Log in</a>
+                <a href="signup.html" class="btn btn-primary">Sign up</a>
+            </div>
         </div>
-        <div class="nav-links">
-          <a href="home.html">Home</a>
-          <a href="work.html">Work</a>
-        </div>
-        <div class="auth-buttons">
-          <a href="login.html" class="btn btn-secondary">Log in</a>
-          <a href="signup.html" class="btn btn-primary">Sign up</a>
-        </div>
-      </div>
     </nav>
     <div class="form-container">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required />
-      <h4 id="usernameError" class="error"></h4>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required />
-      <h4 id="emailError" class="error"></h4>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
-      <h4 id="passwordError" class="error"></h4>
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" id="confirmPassword" required />
-      <h4 id="passwordConfirmationError" class="error"></h4>
-      <button onclick="saveUsername()" id="submitbtn">Sign Up</button>
-      <p>
-        Already have an account?
-        <a href="..\login\login.html" class="form-toggle">Log In</a>
-      </p>
-      <p><a href="home.html">Back to home</a></p>
+       
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            <h4 id="usernameError" class="error"></h4>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <h4 id="emailError" class="error"></h4>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <h4 id="passwordError" class="error"></h4>
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" required>
+            <h4 id="passwordConfirmationError" class="error"></h4>
+            <button onclick="saveUsername()" id="submitbtn">Sign Up</button>
+            <h4 id="mailExist" class="error"></h4>
+        <p>Already have an account? <a href="login.html" class="form-toggle">Log In</a></p>
+        <p><a href="home.html">Back to home</a></p>
     </div>
-    <script src="../js/signup.js"></script>
-  </body>
+    <script src="../js/signup.js"></script> 
+</body>
 </html>

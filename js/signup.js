@@ -1,5 +1,4 @@
-
-async function saveUsername()  {
+ async function saveUsername()  {
     try {
         const PARSE_APPLICATION_ID = "LmeCejjiVPk4sPBTz4ldeFuRhuDNvnIrvtFSgoS1";
         const PARSE_JAVASCRIPT_KEY = "Op9NBG0V08Sw8K7tD4CzUw1fN0cokBmNeCwEs9Hp";
@@ -22,41 +21,42 @@ async function saveUsername()  {
     document.getElementById("emailError").textContent="";
     document.getElementById("passwordError").textContent="";
     document.getElementById("passwordConfirmationError").textContent="";
-    //username verification
     if (username.length<3){
         document.getElementById("usernameError").textContent="username is too short";
         isValide=false;
-        console.log(isValide);
     }
-    //email verifaction
     if (!email.includes("@")){
         document.getElementById("emailError").textContent="email not valid";
         isValide=false;
     }
-    //password verification
     if(!passwordRegex.test(password)){
         document.getElementById("passwordError").textContent="password is weak";
         isValide=false;
     }
-    //password confirmation verification
     if(password !== confirmPassword){
         document.getElementById("passwordConfirmationError").textContent="Passwords do not match";
         isValide=false;
     }
-    console.log(isValide);
-    if(isValide==true){
+    const query = new Parse.Query("user");
+    query.equalTo("email", email);
+    const userExists = await query.first();
+    if(userExists){
+        document.getElementById("mailExist").textContent="email already exists you must to login";
+    }
+    if(isValide==true && !userExists ){
         
         try {
             const UserObject = Parse.Object.extend("user");
             const user = new UserObject();
-        
+    
             user.set("username", username);
             user.set("password", password);
             user.set("email", email);
-
+            
             const result = await user.save();
             console.log("Username saved successfully with objectId:", result.id);
             alert("Username saved successfully");
+            window.location.href = '../html/home.html';
         
         } catch (error) {
             console.error("Error saving username:", error);

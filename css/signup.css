@@ -129,6 +129,7 @@
   
   button{
       background-color: var(--primary);
+      width: 100%;
       color: var(--white);
       border: none;
       border-radius: var(--radius);
@@ -170,7 +171,8 @@
       }
   
       .form-container {
-          margin: 2rem 1rem;
+
+          margin: 2rem auto;
           padding: 1.5rem;
       }
   }

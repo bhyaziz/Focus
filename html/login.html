@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="..\css\login.css">
-    <title>Connexion</title>
+    <title>login</title>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
 </head>
 <body>
     <nav>
@@ -21,27 +22,27 @@
                 <a href="home.html">Home</a>
                 <a href="work.html">Work</a>
             </div>
-            <div class="auth-buttons">
+            <div class="auth-buttons" id="auth_buttons">
                 <a href="login.html" class="btn btn-secondary">Log in</a>
                 <a href="signup.html" class="btn btn-primary">Sign up</a>
             </div>
         </div>
     </nav>
+    
     <div class="form-container">
-        <form action="/login" method="POST">
+        
+        <div class="form">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
             
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
 
-
-
-            <button type="submit">Log In</button>
-        </form>
-        <p>Don't have an Account ? <a href="..\signup\signup.html" class="form-toggle">Register Now!</a></p>
+            <button  onclick="checkUser()">Log In</button>
+        </div> 
+        <p>Don't have an Account ? <a href="signup.html" class="form-toggle">Register Now!</a></p>
         <p><a href="home.html">Back to home</a></p>
     </div>
-    <script src="script.js"></script> 
+    <script src="../js/login.js"></script> 
 </body>
 </html>
