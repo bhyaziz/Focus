@@ -1,7 +1,7 @@
  async function saveUsername()  {
     try {
-        const PARSE_APPLICATION_ID = "LmeCejjiVPk4sPBTz4ldeFuRhuDNvnIrvtFSgoS1";
-        const PARSE_JAVASCRIPT_KEY = "Op9NBG0V08Sw8K7tD4CzUw1fN0cokBmNeCwEs9Hp";
+        const PARSE_APPLICATION_ID = "CJJFInfLC3tjEyyvkMW9ueDfrfcQrI8pZFMrwWnh";
+        const PARSE_JAVASCRIPT_KEY = "xgUeoU2FNVCTAqzWHAXrsc6JENKxotOoRFSrCs4R";
         const PARSE_SERVER_URL = "https://parseapi.back4app.com/";
     
         Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
