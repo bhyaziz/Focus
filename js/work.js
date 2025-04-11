@@ -4,8 +4,8 @@ const timers = {} // Object to store all timers
 const projectTasks = {} // Object to store tasks for each project
 const projects=[];
 try {
-  const PARSE_APPLICATION_ID = "LmeCejjiVPk4sPBTz4ldeFuRhuDNvnIrvtFSgoS1"
-  const PARSE_JAVASCRIPT_KEY = "Op9NBG0V08Sw8K7tD4CzUw1fN0cokBmNeCwEs9Hp"
+  const PARSE_APPLICATION_ID = "CJJFInfLC3tjEyyvkMW9ueDfrfcQrI8pZFMrwWnh"
+  const PARSE_JAVASCRIPT_KEY = "xgUeoU2FNVCTAqzWHAXrsc6JENKxotOoRFSrCs4R"
   const PARSE_SERVER_URL = "https://parseapi.back4app.com/"
 
   Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY)
@@ -35,7 +35,7 @@ function change_container(username) {
     authButtons.innerHTML = `
       <div class="profile-container">
         <div class="profile">
-            <p>mahdi</p>
+            <p>${username}</p>
             <i class="fa-solid fa-user"></i>
         </div>
         <button onclick="logout()" class="logout-button">
@@ -145,7 +145,7 @@ function addProject() {
   if (projectName===project){
       test=false;
       
-      alert("project is project already exists");
+      alert("project already exists");
     }
   })
   if (test){
@@ -294,11 +294,72 @@ function addTask() {
   updateProgress()
 }
 
+// Function to rename a project in the database
+async function renameProjectInDB(oldProjectName, newProjectName) {
+  try {
+    const email = localStorage.getItem("loggedInEmail");
+    const ProjectQuery = new Parse.Query("project");
+    ProjectQuery.equalTo("email", email);
+    ProjectQuery.equalTo("project", oldProjectName);
+    
+    const results = await ProjectQuery.find();
+    
+    if (results.length === 0) {
+      console.error(`Project "${oldProjectName}" not found`);
+      return false;
+    }
+    
+    // Update the project name
+    for (const project of results) {
+      project.set("project", newProjectName);
+      await project.save();
+      console.log(`Project renamed from "${oldProjectName}" to "${newProjectName}" successfully`);
+    }
+    
+    // Also update all tasks associated with this project
+    await updateProjectNameForTasks(oldProjectName, newProjectName);
+    
+    return true;
+  } catch (error) {
+    console.error("Error renaming project:", error);
+    return false;
+  }
+}
+
+async function updateProjectNameForTasks(oldProjectName, newProjectName) {
+  try {
+    const email = localStorage.getItem("loggedInEmail");
+    const TaskQuery = new Parse.Query("task");
+    TaskQuery.equalTo("taskEmail", email);
+    TaskQuery.equalTo("projectName", oldProjectName);
+    
+    const results = await TaskQuery.find();
+    
+    // Update project name for all associated tasks
+    for (const task of results) {
+      task.set("projectName", newProjectName);
+      await task.save();
+    }
+    
+    console.log(`Project name updated for all tasks from "${oldProjectName}" to "${newProjectName}"`);
+    return true;
+  } catch (error) {
+    console.error("Error updating project name for tasks:", error);
+    return false;
+  }
+}
+
 function renameProject(button) {
   const projectItem = button.closest("li")
   const nameSpan = projectItem.querySelector(".project-name")
+  const oldName = nameSpan.textContent // Store the old name before changing it
   const newName = prompt("Enter new project name:", nameSpan.textContent)
+  
   if (newName && newName.trim() !== "") {
+    // Store old name for database update
+    const oldProjectName = nameSpan.textContent
+    
+    // Update UI
     nameSpan.textContent = newName
 
     // Update the name in the main view if this is the current project
@@ -308,15 +369,73 @@ function renameProject(button) {
         mainProjectName.textContent = newName
       }
     }
+    
+    // Call the database update function
+    renameProjectInDB(oldProjectName, newName)
+      .then(success => {
+        if (!success) {
+          console.error("Failed to update project name in database")
+        }
+      })
   }
 }
 
+// Function to delete a project from the database
+async function deleteProjectFromDB(projectName) {
+  try {
+    const email = localStorage.getItem("loggedInEmail");
+    const ProjectQuery = new Parse.Query("project");
+    ProjectQuery.equalTo("email", email);
+    ProjectQuery.equalTo("project", projectName);
+    
+    const results = await ProjectQuery.find();
+    
+    // Delete all matching projects
+    for (const project of results) {
+      await project.destroy();
+      console.log(`Project "${projectName}" deleted successfully`);
+    }
+    
+    // Also delete all tasks associated with this project
+    await deleteAllTasksForProject(projectName);
+    
+    return true;
+  } catch (error) {
+    console.error("Error deleting project:", error);
+    return false;
+  }
+}
+
+// Helper function to delete all tasks for a project
+async function deleteAllTasksForProject(projectName) {
+  try {
+    const email = localStorage.getItem("loggedInEmail");
+    const TaskQuery = new Parse.Query("task");
+    TaskQuery.equalTo("taskEmail", email);
+    TaskQuery.equalTo("projectName", projectName);
+    
+    const results = await TaskQuery.find();
+    
+    // Delete all tasks for this project
+    for (const task of results) {
+      await task.destroy();
+    }
+    
+    console.log(`All tasks for project "${projectName}" deleted successfully`);
+    return true;
+  } catch (error) {
+    console.error("Error deleting tasks for project:", error);
+    return false;
+  }
+}
 function removeProject(button) {
   const projectItem = button.closest("li")
   const projectName = projectItem.querySelector(".project-name").textContent
   const projectList = document.getElementById("project-list")
 
   projectItem.remove()
+
+  deleteProjectFromDB(projectName)
 
   const undoMessage = document.createElement("div")
   undoMessage.className = "undo-message"
@@ -349,14 +468,87 @@ function undoProjectDeletion(button, projectName) {
   button.closest(".undo-message").remove()
 }
 
+async function renameTaskInDB(taskId, projectName, newTaskName) {
+  try {
+    const email = localStorage.getItem("loggedInEmail");
+    const TaskQuery = new Parse.Query("task");
+    TaskQuery.equalTo("taskEmail", email);
+    TaskQuery.equalTo("projectName", projectName);
+    TaskQuery.equalTo("taskId", taskId);
+    
+    const results = await TaskQuery.find();
+    
+    if (results.length === 0) {
+      console.error(`Task "${taskId}" not found`);
+      return false;
+    }
+    
+    // Update the task name
+    for (const task of results) {
+      task.set("taskName", newTaskName);
+      await task.save();
+      console.log(`Task "${taskId}" renamed to "${newTaskName}" successfully`);
+    }
+    
+    return true;
+  } catch (error) {
+    console.error("Error renaming task:", error);
+    return false;
+  }
+}
+
 function renameTask(button) {
   const task = button.closest(".task")
   const taskNameElement = task.querySelector(".task-name")
-  const newName = prompt("Enter new task name:", taskNameElement.textContent)
+  const oldName = taskNameElement.textContent
+  const newName = prompt("Enter new task name:", oldName)
+  
   if (newName && newName.trim() !== "") {
+    // Update UI
     taskNameElement.textContent = newName
+    
+    // Get task ID from the task element
+    const taskId = task.dataset.id || task.getAttribute("data-id")
+    
+    // Get current project name
+    const projectName = document.querySelector("#projects h3").textContent || 
+                        currentProject.querySelector(".project-name").textContent
+    
+    // Call the database update function
+    renameTaskInDB(taskId, projectName, newName)
+      .then(success => {
+        if (!success) {
+          console.error("Failed to update task name in database")
+          // Optionally revert the UI change
+          // taskNameElement.textContent = oldName
+        }
+      })
   }
+  
   toggleTaskOptions(button)
+}
+// Function to delete a task from the database
+async function deleteTaskFromDB(taskId, projectName) {
+  try {
+    const email = localStorage.getItem("loggedInEmail");
+    const TaskQuery = new Parse.Query("task");
+    TaskQuery.equalTo("taskEmail", email);
+    TaskQuery.equalTo("projectName", projectName);
+    TaskQuery.equalTo("taskId", taskId);
+    
+    const results = await TaskQuery.find();
+    
+    // Delete all matching tasks
+    for (const task of results) {
+      await task.destroy()
+      console.log(`Task "${taskId}" deleted successfully`)
+    }
+    
+    return true
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    return false;
+  }
 }
 
 function removeTask(button) {
@@ -377,7 +569,39 @@ function removeTask(button) {
 
   // Remove the task element
   task.remove()
+
+  deleteTaskFromDB(taskId, projectName)
+
   updateProgress()
+}
+
+async function updateTaskCompletionInDB(taskId, projectName, isCompleted) {
+  try {
+    const email = localStorage.getItem("loggedInEmail");
+    const TaskQuery = new Parse.Query("task");
+    TaskQuery.equalTo("taskEmail", email);
+    TaskQuery.equalTo("projectName", projectName);
+    TaskQuery.equalTo("taskId", taskId);
+    
+    const results = await TaskQuery.find();
+    
+    if (results.length === 0) {
+      console.error(`Task "${taskId}" not found in project "${projectName}"`);
+      return false;
+    }
+    
+    // Update the task completion status
+    for (const task of results) {
+      task.set("taskCompleted", isCompleted);
+      await task.save();
+      console.log(`Task "${taskId}" completion status updated to ${isCompleted ? "completed" : "not completed"}`);
+    }
+    
+    return true;
+  } catch (error) {
+    console.error("Error updating task completion status:", error);
+    return false;
+  }
 }
 
 function toggleCompleteTask(button) {
@@ -387,6 +611,10 @@ function toggleCompleteTask(button) {
   const projectName = currentProject.querySelector(".project-name").textContent
   const taskObj = projectTasks[projectName].find((t) => t.id === taskId)
 
+  // Determine the new completion status (opposite of current)
+  const newCompletionStatus = task.dataset.completed !== "true"
+  
+  // Update UI and local data
   if (task.dataset.completed === "true") {
     task.dataset.completed = "false"
     taskName.style.textDecoration = "none"
@@ -398,6 +626,16 @@ function toggleCompleteTask(button) {
     button.textContent = "Uncomplete"
     if (taskObj) taskObj.completed = true
   }
+  
+  // Update in database
+  updateTaskCompletionInDB(taskId, projectName, newCompletionStatus)
+    .then(success => {
+      if (!success) {
+        console.error("Failed to update task completion status in database")
+        // Optionally revert the UI change if the database update fails
+      }
+    })
+  
   updateProgress()
 }
 
