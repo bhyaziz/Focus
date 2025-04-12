@@ -238,10 +238,9 @@ function createTaskElement(task) {
                 <button onclick="notFinishedTask('${task.id}')">No</button>
             </div>
             <div class="time-buttons-container" id="time-buttons-${task.id}" style="display: none;">
+                <button onclick="addTime('${task.id}', 25)">+25 minutes</button>
+                <button onclick="addTime('${task.id}', 15)">+15 minutes</button>
                 <button onclick="addTime('${task.id}', 10)">+10 minutes</button>
-                <button onclick="addTime('${task.id}', 5)">+5 minutes</button>
-                <button onclick="addTime('${task.id}', 3)">+3 minutes</button>
-                <button onclick="addTime('${task.id}', 1)">+1 minute</button>
             </div>
         </div>
     `
@@ -745,8 +744,8 @@ function resetTimer(taskId) {
   }
 
   timer.isActive = false
-  timer.minutes = 25
-  timer.seconds = 0
+  timer.minutes = 0
+  timer.seconds = 3
   timer.timerFinished = false
 
   circleProgress.style.strokeDasharray = 2 * Math.PI * 45
@@ -822,6 +821,7 @@ function notFinishedTask(taskId) {
   const workBreakQuestion = document.createElement("div")
   workBreakQuestion.id = `work-break-${taskId}`
   workBreakQuestion.className = "question-container"
+  workBreakQuestion.style.display = "block"
   workBreakQuestion.innerHTML = `
         <p>Need more time or would you like to take a break?</p>
         <button id="work-button-${taskId}">Work</button>
