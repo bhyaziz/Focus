@@ -687,7 +687,7 @@ function startPauseTimer(taskId) {
 
   if (!timer.isActive) {
     timer.isActive = true
-    updateTimerMessage(taskId, "Start the work")
+    updateTimerMessage(taskId, "Unpause Timer :)")
     document.getElementById(`message-${taskId}`).style.display = "none"
 
     timer.interval = setInterval(() => {
@@ -729,7 +729,7 @@ function startPauseTimer(taskId) {
   } else {
     clearInterval(timer.interval)
     timer.isActive = false
-    updateTimerMessage(taskId, "Start the work")
+    updateTimerMessage(taskId, "Unpause Timer :)")
     document.getElementById(`message-${taskId}`).style.display = "block"
     startButton.textContent = "Start"
   }
@@ -801,8 +801,7 @@ function handleTimerFinish(taskId) {
 
 function finishedTask(taskId) {
   alert("Great job! Have some fun, then come back.")
-  resetTimer(taskId)
-
+  
   // Mark the task as completed
   const task = document.querySelector(`.task[data-id="${taskId}"]`)
   if (task) {
@@ -811,6 +810,68 @@ function finishedTask(taskId) {
     task.querySelector(".task-options button:last-child").textContent = "Uncomplete"
     updateProgress()
   }
+  
+  // Set up and start a 5-minute break timer
+  const timer = timers[taskId]
+  if (timer.interval) {
+    clearInterval(timer.interval)
+  }
+
+  // Set up the timer for 5 minutes
+  timer.minutes = 5
+  timer.seconds = 0
+  timer.timerFinished = false
+
+  // Update the display
+  updateTimerDisplay(taskId)
+  updateTimerMessage(taskId, "Break time")
+  document.getElementById(`message-${taskId}`).style.display = "block"
+  document.getElementById(`start-${taskId}`).textContent = "Pause"
+  document.getElementById(`question-${taskId}`).style.display = "none"
+
+  // Start the timer automatically
+  timer.isActive = true
+  const circleProgress = document.querySelector(`.task[data-id="${taskId}"] .timer-circle-progress`)
+  const totalSeconds = timer.minutes * 60 + timer.seconds
+  const circumference = 2 * Math.PI * 45 // 45 is the radius of our circle
+
+  circleProgress.style.strokeDasharray = circumference
+  circleProgress.style.strokeDashoffset = 0
+
+  timer.interval = setInterval(() => {
+    if (timer.seconds > 0) {
+      timer.seconds--
+    } else if (timer.minutes > 0) {
+      timer.minutes--
+      timer.seconds = 59
+    } else {
+      clearInterval(timer.interval)
+      timer.isActive = false
+      timer.timerFinished = true
+      handleTimerFinish(taskId)
+    }
+
+    const currentSeconds = timer.minutes * 60 + timer.seconds
+    const progress = currentSeconds / totalSeconds
+    const dashoffset = circumference * (1 - progress)
+    circleProgress.style.strokeDasharray = circumference
+    circleProgress.style.strokeDashoffset = dashoffset
+
+    // Show "Time's Ticking .." when it's 10 seconds left
+    if (timer.minutes === 0 && timer.seconds <= 10) {
+      document.getElementById(`message-${taskId}`).style.display = "block"
+      updateTimerMessage(taskId, "Time's Ticking ..")
+    }
+
+    // Show "Break's Over!" when timer finishes
+    if (timer.minutes === 0 && timer.seconds === 0) {
+      document.getElementById(`message-${taskId}`).style.display = "block"
+      updateTimerMessage(taskId, "Break's Over!")
+      playSound()
+    }
+
+    updateTimerDisplay(taskId)
+  }, 1000)
 }
 
 function notFinishedTask(taskId) {
@@ -836,14 +897,92 @@ function notFinishedTask(taskId) {
   })
 
   document.getElementById(`break-button-${taskId}`).addEventListener("click", () => {
-    alert("Take a break, but not too long.")
-    resetTimer(taskId)
+    // Set timer to 5 minutes for break
+    const timer = timers[taskId]
+    if (timer.interval) {
+      clearInterval(timer.interval)
+    }
+  
+    timer.isActive = false
+    timer.minutes = 5
+    timer.seconds = 0
+    timer.timerFinished = false
+  
+    // Update the display
+    updateTimerDisplay(taskId)
+    updateTimerMessage(taskId, "Break time")
+    document.getElementById(`message-${taskId}`).style.display = "block"
+    document.getElementById(`start-${taskId}`).textContent = "pause"
+    document.getElementById(`question-${taskId}`).style.display = "none"
+  
+    // Remove work-break question
+    const workBreakQuestion = document.querySelector(`#work-break-${taskId}`)
+    if (workBreakQuestion) {
+      workBreakQuestion.remove()
+    }
+    // Start the timer automatically - ADDED THIS ENTIRE SECTION
+    timer.isActive = true
+    const circleProgress = document.querySelector(`.task[data-id="${taskId}"] .timer-circle-progress`)
+    const totalSeconds = timer.minutes * 60 + timer.seconds
+    const circumference = 2 * Math.PI * 45 // 45 is the radius of our circle
+
+    circleProgress.style.strokeDasharray = circumference
+    circleProgress.style.strokeDashoffset = 0
+
+    timer.interval = setInterval(() => {
+      if (timer.seconds > 0) {
+        timer.seconds--
+      } else if (timer.minutes > 0) {
+        timer.minutes--
+        timer.seconds = 59
+      } else {
+       clearInterval(timer.interval)
+       timer.isActive = false
+       timer.timerFinished = true
+       handleTimerFinish(taskId)
+     }
+
+      const currentSeconds = timer.minutes * 60 + timer.seconds
+      const progress = currentSeconds / totalSeconds
+      const dashoffset = circumference * (1 - progress)
+      circleProgress.style.strokeDasharray = circumference
+      circleProgress.style.strokeDashoffset = dashoffset
+
+      // Show "Time's Ticking .." when it's 10 seconds left
+      if (timer.minutes === 0 && timer.seconds <= 10) {
+        document.getElementById(`message-${taskId}`).style.display = "block"
+        updateTimerMessage(taskId, "Time's Ticking ..")
+      }
+
+      // Show "Break's Over!" when timer finishes
+      if (timer.minutes === 0 && timer.seconds === 0) {
+        document.getElementById(`message-${taskId}`).style.display = "block"
+        updateTimerMessage(taskId, "Break's Over!")  // Changed message from "Time's Up!!" to "Break's Over!"
+        playSound()
+      }
+
+      updateTimerDisplay(taskId)
+    }, 1000)
   })
 }
 
 function playSound() {
-  const Sound = document.getElementById("Sound")
-  Sound.play()
+  const Sound = new Audio();
+  // Add multiple sources for better browser compatibility
+  const source1 = document.createElement('source');
+  source1.src = '../sound/mixkit-alarm-digital-clock-beep-989.wav';
+  source1.type = 'audio/wav';
+  
+  const source2 = document.createElement('source');
+  source2.src = '../sound/mixkit-alarm-digital-clock-beep-989.mp3';
+  source2.type = 'audio/mpeg';
+  
+  Sound.appendChild(source1);
+  Sound.appendChild(source2);
+  
+  Sound.play().catch(error => {
+    console.error("Error playing sound:", error);
+  });
 }
 
 // Add event listener to show timer when a task is clicked
@@ -853,3 +992,43 @@ document.addEventListener("click", (e) => {
   }
 })
 
+// Dark mode toggle functionality
+function toggleDarkMode() {
+  const body = document.body;
+  body.classList.toggle('dark-mode');
+  
+  // Save preference to localStorage
+  const isDarkMode = body.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode);
+  
+  // Update button icon
+  const darkModeToggle = document.getElementById('dark-mode-toggle');
+  if (darkModeToggle) {
+    darkModeToggle.innerHTML = isDarkMode ? 
+      '<i class="fa-solid fa-sun"></i>' : 
+      '<i class="fa-solid fa-moon"></i>';
+  }
+}
+
+// Check for saved dark mode preference
+function initDarkMode() {
+  const darkModeSaved = localStorage.getItem('darkMode');
+  
+  if (darkModeSaved === 'true') {
+    document.body.classList.add('dark-mode');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle) {
+      darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    }
+  }
+}
+
+// Add event listener to dark mode toggle button
+document.addEventListener('DOMContentLoaded', () => {
+  initDarkMode();
+  
+  const darkModeToggle = document.getElementById('dark-mode-toggle');
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+  }
+});
