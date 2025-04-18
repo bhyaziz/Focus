@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="..\css\login.css">
+    <title>login</title>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                Focus
+            </div>
+            <div class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="work.html">Work</a>
+            </div>
+            <div class="auth-buttons" id="auth_buttons">
+                <a href="login.html" class="btn btn-secondary">Log in</a>
+                <a href="signup.html" class="btn btn-primary">Sign up</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="form-container">
+        
+        <div class="form">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <h4 id="emailError" class="error"></h4>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <h4 id="passwordError" class="error"></h4>
+            <button  onclick="checkUser()">Log In</button>
+        </div> 
+        <p>Don't have an Account ? <a href="signup.html" class="form-toggle">Register Now!</a></p>
+        <p><a href="home.html">Back to home</a></p>
+    </div>
+    <script src="../js/login.js"></script> 
+</body>
+</html>
